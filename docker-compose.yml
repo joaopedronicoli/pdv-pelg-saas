@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  # Backend (NestJS)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: pdv-pelg-backend:latest
+    restart: always
+    networks:
+      - network_public
+    environment:
+      - NODE_ENV=production
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - BLING_CLIENT_ID=${BLING_CLIENT_ID}
+      - BLING_CLIENT_SECRET=${BLING_CLIENT_SECRET}
+      - WOOCOMMERCE_URL=${WOOCOMMERCE_URL}
+      - WOOCOMMERCE_CONSUMER_KEY=${WOOCOMMERCE_CONSUMER_KEY}
+      - WOOCOMMERCE_CONSUMER_SECRET=${WOOCOMMERCE_CONSUMER_SECRET}
+      - EVOLUTION_API_URL=${EVOLUTION_API_URL}
+      - EVOLUTION_API_KEY=${EVOLUTION_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+
+  # Frontend (React)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: pdv-pelg-frontend:latest
+    restart: always
+    networks:
+      - network_public
+    environment:
+      - VITE_API_URL=https://pdv.pelg.com.br/api
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pdv.rule=Host(`pdv.pelg.com.br`)"
+      - "traefik.http.routers.pdv.entrypoints=websecure"
+      - "traefik.http.routers.pdv.tls.certresolver=letsencryptresolver"
+      - "traefik.http.services.pdv.loadbalancer.server.port=80"
+    depends_on:
+      - backend
+
+networks:
+  network_public:
+    external: true
