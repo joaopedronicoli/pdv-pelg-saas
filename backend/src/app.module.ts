@@ -9,6 +9,8 @@ import { CustomersModule } from './customers/customers.module';
 import { ProductsModule } from './products/products.module';
 import { SalesModule } from './sales/sales.module';
 import { CashierModule } from './cashier/cashier.module';
+import { DatabaseManagerModule } from './database-manager/database-manager.module';
+import { WoocommerceModule } from './woocommerce/woocommerce.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { CashierModule } from './cashier/cashier.module';
     ProductsModule,
     SalesModule,
     CashierModule,
+    DatabaseManagerModule,
+    WoocommerceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
