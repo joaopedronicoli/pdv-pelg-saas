@@ -1,44 +1,51 @@
 # Dependencies
 node_modules/
-.pnp
-.pnp.js
-
-# Testing
-coverage/
-
-# Production
 dist/
 build/
+.next/
+out/
 
-# Environment
+# Environment files
 .env
 .env.local
 .env.production
-.env.development.local
-.env.test.local
-.env.production.local
+.env.development
 
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Database
-*.sqlite
-*.db
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+lerna-debug.log*
+pnpm-debug.log*
 
 # OS
 .DS_Store
 Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+*.pem
+.cache/
+.temp/
+.tmp/
+
+# Database
+*.sqlite
+*.db
 
 # Docker
 docker-compose.override.yml
