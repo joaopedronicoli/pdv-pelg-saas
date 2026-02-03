@@ -15,7 +15,27 @@ Guia de deploy usando Docker Swarm em `/opt/apps/pdv-pelg-saas`
 
 ## 1️⃣ Primeira Instalação
 
-### No Servidor
+### Método Automático (Recomendado)
+
+```bash
+# Baixar e executar script de instalação
+cd /opt/apps
+git clone https://github.com/joaopedronicoli/pdv-pelg-saas.git
+cd pdv-pelg-saas
+chmod +x install.sh
+./install.sh
+```
+
+O script `install.sh` faz:
+- ✅ Verifica se já existe instalação em `/opt/apps/pdv-pelg-saas`
+- ✅ Pergunta se deseja remover instalação existente
+- ✅ Remove stack Docker se existir
+- ✅ Clona repositório
+- ✅ Cria arquivo `.env` a partir do template
+- ✅ Builda imagens Docker
+- ✅ Faz deploy do stack
+
+### Método Manual
 
 ```bash
 # Clonar repositório
