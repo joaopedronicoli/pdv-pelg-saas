@@ -1,22 +1,31 @@
-FROM node:20-alpine AS builder
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
+# Copiar package files
 COPY package*.json ./
-RUN npm ci
 
-COPY . .
-RUN npm run build
-
-FROM node:20-alpine
-
-WORKDIR /app
-
-COPY package*.json ./
+# Instalar dependências
 RUN npm ci --only=production
 
-COPY --from=builder /app/dist ./dist
+# Copiar código fonte
+COPY . .
 
+# Build
+RUN npm run build
+
+# Estágio de produção
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copiar apenas o necessário
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+
+# Expor porta
 EXPOSE 3000
 
-CMD ["node", "dist/main"]
+# Comando de inicialização
+CMD ["node", "dist/main.js"]
